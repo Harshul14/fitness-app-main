@@ -17,44 +17,84 @@ const ExerciseDetail = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    //original
+    const fetchExercisesData = async () => {
+      const exerciseDbUrl = 'https://exercisedb.p.rapidapi.com';
+      const youtubeSearchUrl = 'https://youtube-search-and-download.p.rapidapi.com';
+
+      const exerciseDetailData = await fetchData(`${exerciseDbUrl}/exercises/exercise/${id}`, exerciseOptions);
+      setExerciseDetail(exerciseDetailData);
+
+      const exerciseVideosData = await fetchData(`${youtubeSearchUrl}/search?query=${exerciseDetailData.name} exercise`, youtubeOptions);
+      setExerciseVideos(exerciseVideosData.contents);
+
+      const targetMuscleExercisesData = await fetchData(`${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`, exerciseOptions);
+      setTargetMuscleExercises(targetMuscleExercisesData);
+
+      const equimentExercisesData = await fetchData(`${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}`, exerciseOptions);
+      setEquipmentExercises(equimentExercisesData);
+    };
+
+    //working : debugged
+
     // const fetchExercisesData = async () => {
-    //   const exerciseDbUrl = 'https://exercisedb.p.rapidapi.com';
-    //   const youtubeSearchUrl = 'https://youtube-search-and-download.p.rapidapi.com';
+    //   try {
+    //     const exerciseDbUrl = 'https://exercisedb.p.rapidapi.com';
+    //     const youtubeSearchUrl = 'https://youtube-search-and-download.p.rapidapi.com';
 
-    //   const exerciseDetailData = await fetchData(`${exerciseDbUrl}/exercises/exercise/${id}`, exerciseOptions);
-    //   setExerciseDetail(exerciseDetailData);
+    //     const exerciseDetailData = await fetchData('${exerciseDbUrl}/exercises/exercise/${id}', exerciseOptions);
+    //     setExerciseDetail(exerciseDetailData);
 
-    //   const exerciseVideosData = await fetchData(`${youtubeSearchUrl}/search?query=${exerciseDetailData.name} exercise`, youtubeOptions);
-    //   setExerciseVideos(exerciseVideosData.contents);
+    //     const exerciseVideosData = await fetchData('${youtubeSearchUrl}/search?query=${exerciseDetailData.name} exercise', youtubeOptions);
+    //     setExerciseVideos(exerciseVideosData.contents);
 
-    //   const targetMuscleExercisesData = await fetchData(`${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`, exerciseOptions);
-    //   setTargetMuscleExercises(targetMuscleExercisesData);
+    //     const targetMuscleExercisesData = await fetchData('${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}', exerciseOptions);
+    //     setTargetMuscleExercises(targetMuscleExercisesData);
 
-    //   const equimentExercisesData = await fetchData(`${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}`, exerciseOptions);
-    //   setEquipmentExercises(equimentExercisesData);
+    //     const equimentExercisesData = await fetchData('${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}', exerciseOptions);
+    //     setEquipmentExercises(equimentExercisesData);
+    //   } catch (error) {
+    //     console.error(error);
+    //     // handle the error here (show error message to the user)
+    //   }
     // };
 
-    const fetchExercisesData = async () => {
-      try {
-        const exerciseDbUrl = 'https://exercisedb.p.rapidapi.com';
-        const youtubeSearchUrl = 'https://youtube-search-and-download.p.rapidapi.com';
+    //testing
+    // const fetchExercisesData = async (id) => {
+    //   try {
+    //     const exerciseDbUrl = 'https://exercisedb.p.rapidapi.com';
+    //     const youtubeSearchUrl = 'https://youtube-search-and-download.p.rapidapi.com';
 
-        const exerciseDetailData = await fetchData('${exerciseDbUrl}/exercises/exercise/${id}', exerciseOptions);
-        setExerciseDetail(exerciseDetailData);
+    //     const exerciseOptions = {
+    //       headers: {
+    //         'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
+    //         // 'x-rapidapi-key': 'your-api-key-here'
+    //         'x-rapidapi-key': 'c231d7d4cfmsh92a756992e9ca99p18d303jsn8a31fedb8dbc'
+    //       }
+    //     };
 
-        const exerciseVideosData = await fetchData('${youtubeSearchUrl}/search?query=${exerciseDetailData.name} exercise', youtubeOptions);
-        setExerciseVideos(exerciseVideosData.contents);
+    //     const youtubeOptions = {
+    //       headers: {
+    //         'x-rapidapi-host': 'youtube-search-and-download.p.rapidapi.com',
+    //         'x-rapidapi-key': 'c231d7d4cfmsh92a756992e9ca99p18d303jsn8a31fedb8dbc'
+    //       }
+    //     };
 
-        const targetMuscleExercisesData = await fetchData('${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}', exerciseOptions);
-        setTargetMuscleExercises(targetMuscleExercisesData);
+    //     const exerciseDetailData = await fetchData('${exerciseDbUrl}/exercises/exercise/${id}', exerciseOptions);
+    //     const exerciseVideosData = await fetchData('${youtubeSearchUrl}/search?query=${exerciseDetailData.name} exercise', youtubeOptions);
+    //     const targetMuscleExercisesData = await fetchData('${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}', exerciseOptions);
+    //     const equipmentExercisesData = await fetchData('${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}', exerciseOptions);
 
-        const equimentExercisesData = await fetchData('${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}', exerciseOptions);
-        setEquipmentExercises(equimentExercisesData);
-      } catch (error) {
-        console.error(error);
-        // handle the error here (show error message to the user)
-      }
-    };
+    //     setExerciseDetail(exerciseDetailData);
+    //     setExerciseVideos(exerciseVideosData.contents);
+    //     setTargetMuscleExercises(targetMuscleExercisesData);
+    //     setEquipmentExercises(equipmentExercisesData);
+    //   } catch (error) {
+    //     console.error(error);
+    //     // handle the error here (show error message to the user)
+    //   }
+    // };
+
 
     fetchExercisesData();
   }, [id]);
